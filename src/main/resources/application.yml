@@ -20,4 +20,5 @@ spring:
     suffix: .html
     mode: LEGACYHTML5
     encoding: UTF-8
+    cache: false
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,34 +20,9 @@ public class loginController {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @RequestMapping("/login")
-    public ModelAndView login(ModelAndView mv){
-        mv.setViewName("/login");
-        return mv;
-    }
-
-    @RequestMapping("/loginByEmail")
-    public ModelAndView loginByEmail(ModelAndView mv){
-        mv.setViewName("/loginByEmail");
-        return mv;
-    }
-
-    @RequestMapping("/loginByPhone")
-    public ModelAndView loginByPhone(ModelAndView mv){
-        mv.setViewName("/loginByPhone");
-        return mv;
-    }
-
-    @RequestMapping("/register")
-    public ModelAndView register(ModelAndView mv){
-        mv.setViewName("/register");
-        return mv;
-    }
-
-
     @RequestMapping(value = "/loginCheck",method = RequestMethod.POST,produces = "application/json")
     @ResponseBody
-    public  Map<String,Object> loginCheck(@RequestBody userInfo userinfo){
+    public  Map<String,Object> loginCheck(@RequestBody userInfo userinfo,HttpServletRequest request){
         userInfo user=userInfoRepository.findByUserName(userinfo.getUserName());
         Map<String,Object> map=new HashMap<>();
         map.put("userinfo",userinfo);
@@ -57,12 +33,13 @@ public class loginController {
             map.put("msg","登录失败");
             map.put("code",400);
         }
+        request.getSession().setAttribute("username",user.getUserName());
         return map;
     }
 
     @RequestMapping(value = "/loginCheckByEmail",method = RequestMethod.POST,produces = "application/json")
     @ResponseBody
-    public  Map<String,Object>  loginCheckByEmail(@RequestBody userInfo userinfo){
+    public  Map<String,Object>  loginCheckByEmail(@RequestBody userInfo userinfo,HttpServletRequest request){
         userInfo user=userInfoRepository.findByEmail(userinfo.getEmail());
         Map<String,Object> map=new HashMap<>();
         map.put("userinfo",user);
@@ -73,12 +50,13 @@ public class loginController {
             map.put("msg","登录失败");
             map.put("code",400);
         }
+        request.getSession().setAttribute("username",user.getUserName());//设置全局变量
         return map;
     }
 
     @RequestMapping(value = "/loginCheckByPhone",method = RequestMethod.POST,produces = "application/json")
     @ResponseBody
-    public  Map<String,Object>  loginCheckByPhone(@RequestBody userInfo userinfo){
+    public  Map<String,Object>  loginCheckByPhone(@RequestBody userInfo userinfo,HttpServletRequest request){
         userInfo user=userInfoRepository.findByPhone(userinfo.getPhone());
         Map<String,Object> map=new HashMap<>();
         map.put("userinfo",user);
@@ -89,6 +67,7 @@ public class loginController {
             map.put("msg","登录失败");
             map.put("code",400);
         }
+        request.getSession().setAttribute("username",user.getUserName());
         return map;
     }
 

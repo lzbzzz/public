@@ -4,9 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * Created by lenovo on 2018/8/21.
- */
 @Entity
 public class role {
 
