@@ -1,6 +1,7 @@
 package com.lzb.controller;
 
 import com.lzb.Repository.UserInfoRepository;
+import com.lzb.model.OperateResult;
 import com.lzb.model.userInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
